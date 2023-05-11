@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <ctype.h>
+
+#define MAX_STR_LENGTH 100
+
+int main() {
+    int n, i, vocalesmax=0, numvoc;
+    printf("Ingrese la cantidad de palabras: ");
+    scanf("%d", &n);
+
+    char palabras[n][MAX_STR_LENGTH];
+    printf("Ingrese las palabras: ");
+    for (i = 0; i < n; i++) {
+    	fflush(stdin);
+		scanf("%s", palabras[i]);
+    }
+    char *palabrasuprema = NULL;
+    for (i = 0; i < n; i++) {
+        char *palabra = palabras[i];
+        numvoc = contar_vocales_mayusculas(palabra);
+        if (numvoc > vocalesmax) {
+            vocalesmax = numvoc;
+            palabrasuprema = palabra;
+        }
+    }
+    FILE *archivo = fopen("Problema3.txt", "w");
+    if (archivo != NULL) {
+        printf("Cadena introducida: %s\n", palabrasuprema);
+        fprintf(archivo, "Cadena introducida: %s\n", palabrasuprema);
+        fclose(archivo);
+    }
+    else{
+        printf("Error en la apertura :c");
+    }
+    return 0;
+}
+
+int contar_vocales_mayusculas(char *cadena) {
+    int contador = 0;
+    while (*cadena) {
+        if (isupper(*cadena) && strchr("AEIOU", *cadena)) {
+            contador++;
+        }
+        cadena++;
+    }
+    return contador;
+}
