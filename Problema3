@@ -1,0 +1,54 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_STR_LEN 100
+
+int main() {
+    int n,i;
+    printf("Ingrese el numero de cadenas de caracteres: ");
+    scanf("%d", &n);
+    getchar(); // Leer el salto de línea después del número entero
+
+    char str[MAX_STR_LEN];
+    char max_vowel_word[MAX_STR_LEN];
+    int max_vowel_count = 0;
+
+    FILE *fp;
+    fp = fopen("output.txt", "w");
+
+    for (i = 0; i < n; i++) {
+        printf("Ingrese una cadena de caracteres: ");
+        fgets(str, MAX_STR_LEN, stdin);
+        str[strcspn(str, "\n")] = '\0'; 
+
+        char* word = strtok(str, " ");
+        while (word != NULL) {
+            int vowel_count = count_uppercase_vowels(word);
+            if (vowel_count > max_vowel_count) {
+                max_vowel_count = vowel_count;
+                strcpy(max_vowel_word, word);
+            }
+            word = strtok(NULL, " ");
+        }
+
+        printf("De la cadena \"%s\", \"%s\" tiene %d vocales mayusculas.\n", str, max_vowel_word, max_vowel_count);
+        fprintf(fp, "De la cadena \"%s\", \"%s\" tiene %d vocales mayusculas.\n", str, max_vowel_word, max_vowel_count);
+
+        max_vowel_count = 0; 
+    }
+
+    fclose(fp);
+
+    return 0;
+}
+int count_uppercase_vowels(char* str) {
+    int count = 0,i;
+    for (i = 0; i < strlen(str); i++) {
+        if (isupper(str[i])) {
+            if (str[i] == 'A' || str[i] == 'E' || str[i] == 'I' || str[i] == 'O' || str[i] == 'U') {
+                count++;
+            }
+        }
+    }
+    return count;
+}
