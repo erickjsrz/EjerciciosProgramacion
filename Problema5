@@ -1,0 +1,21 @@
+#include <stdio.h>
+int main() {
+    char numeros[1000][10];
+    char nueva_cadena[1000][10+5];
+    int n,i;
+    printf("Ingrese la cantidad de numeros telefonicos a ingresar: ");
+    scanf("%d", &n);
+
+    for(i=0; i<n; i++) {
+        printf("Ingrese el numero telefonico %d: \n", i+1);
+        scanf("%s", numeros[i]);}
+
+    FILE *archivo=fopen("numeros.txt","w");
+    for(i=0; i<n; i++) {
+        sprintf(nueva_cadena[i], "(%c%c)-%c%s", numeros[i][0], numeros[i][1], numeros[i][2], &numeros[i][3]);
+        fflush(stdin);
+		fprintf(archivo, "Numero telefonico: %s\nNueva cadena: %s\n", numeros[i], nueva_cadena[i]);}
+    fclose(archivo);
+    printf("Se han escrito los numeros telefonicos en el archivo numeros.txt\n");
+    return 0;
+    }
